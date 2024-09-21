@@ -1,0 +1,121 @@
+#----------------------------Task-1-------------------------------
+
+#--------------Task-1-----------------------
+
+class KeyIndex:
+    def __init__(self,a):
+        self.a = a
+        self.aux_arr = []
+        self.min_val = self.a[0]
+        
+        for i in self.a:
+            if i < self.min_val:
+                self.min_val = i
+        
+        if self.min_val < 0:
+            x = self.min_val * (-1)
+
+            for j in range(len(self.a)):
+                self.a[j] = self.a[j] + x
+            
+            max_val = 0
+            for i in self.a:
+                if i > max_val:
+                    max_val = i
+            
+            self.aux_arr = [0] * (max_val + 1)
+            
+            for k in range(len(self.a)):
+                temp = self.a[k]
+                self.aux_arr[temp] += 1
+            
+        else:
+            max_val = 0
+            for i in self.a:
+                if i > max_val:
+                    max_val = i
+        
+            self.aux_arr = [0] * (max_val + 1)
+            
+            for j in range(len(self.a)):
+                temp = self.a[j]
+                self.aux_arr[temp] += 1
+                
+    def search(self,value):
+        self.value = value
+
+        if self.min_val < 0:
+            self.f = self.value + (self.min_val*(-1))
+            if self.value > len(self.a) or self.f < 0:
+                return False
+            elif self.aux_arr[self.f] == 0:
+                return False
+            elif self.aux_arr[self.f] != 0:
+                return True
+        else:
+            if self.value >= len(self.aux_arr):
+                return False
+            elif self.aux_arr[self.value] == 0 or self.value < 0:
+                return False
+            elif self.aux_arr[self.value] != 0:
+                return True
+    def sort(self):
+        if self.min_val < 0:
+            i = 0
+            for k in range(len(self.aux_arr)):
+                while self.aux_arr[k] > 0:
+                    self.a[i] = k + self.min_val
+                    i += 1
+                    self.aux_arr[k] = self.aux_arr[k]-1
+            return self.a
+        else:
+            i = 0
+            for k in range(len(self.aux_arr)):
+                while self.aux_arr[k] > 0:
+                    self.a[i] = k
+                    i += 1
+                    self.aux_arr[k]-=1
+            return self.a
+            
+if __name__ == "__main__":   
+    l1 = KeyIndex([5,2,6,0,1,8])
+    print(l1.search(4))
+    print(l1.search(8))
+    print(l1.sort())
+    l2 = KeyIndex([4,-6,4,2,-1,7,0])
+    print(l2.search(-8))
+    print(l2.search(-1))
+    print(l2.sort())
+
+#--------------------------------Task-2---------------------------------
+
+
+class HashTable:
+    def __init__(self,array):
+        self.array = array
+        self.hash_table = [0] * 9
+        
+    def Hash_Function_Calculation(self):
+        for string in self.array:
+            cons = 0
+            total = 0
+            for char in range(len(string)):
+                if string[char] in "BCDFGHJKLMNPQRSTVWXYZ":
+                    cons += 1
+                if string[char] in '0123456789':
+                    total += int(string[char])
+                    
+            hash_index = (cons * 24 + total) % 9
+            
+            if self.hash_table[hash_index] == 0:
+                self.hash_table[hash_index] = string
+            else:
+                while self.hash_table[hash_index] != 0:
+                    hash_index += 1
+                    if hash_index >= 9:
+                        hash_index = 0
+                self.hash_table[hash_index] = string
+        print(self.hash_table)
+        
+h = HashTable(['ST1E89B8A32'])
+h.Hash_Function_Calculation()

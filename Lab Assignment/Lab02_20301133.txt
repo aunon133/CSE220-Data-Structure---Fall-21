@@ -1,0 +1,241 @@
+class Node:
+    def __init__(self,element,next):
+        self.element = element
+        self.next = next
+        
+class MyList:
+    
+    def __init__(self,a):
+        self.head = None
+        self.tail = None
+        
+        for i in a:
+            n = Node(i, None)
+            if self.head is None:
+                self.head = n
+                self.tail = n
+            else:
+                self.tail.next = n
+                self.tail = n
+    def showList(self):
+        n = self.head
+        if n == None:
+            print("Empty List")
+            
+        else:
+            while n is not None:
+                if n.next is not None:
+                    print(n.element,end = " -> ")
+                else:
+                    print(n.element)
+                n = n.next
+            
+    def isEmpty(self):
+        
+        if self.head == None:
+            print("True")
+        else:
+            print("False")
+            
+    def clear(self):
+        n = self.head
+        self.head = None
+        
+    def nodeAt(self,index):
+        n = self.head
+        count = 0
+        while n != None:
+            count = count + 1
+            n = n.next
+        if index < 0 or index >= count:
+            return None
+        n = self.head
+        i = 0
+        while n is not None:
+            if i == index:
+                return n
+            n = n.next
+            i+=1
+               
+    def insert(self,newElement,index = None):
+        
+        if index == None:
+            n = self.head
+            new_node = Node(newElement,None)
+            val = new_node.element
+            flag = 0
+            while n != None:
+                if n.element == val:
+                    print("Sorry, Key already exists")
+                    flag = 1
+                    break
+                n = n.next
+            n = self.head  
+            if flag == 0:
+                while n.next != None:
+                    n = n.next
+                n.next = new_node
+                
+        else:
+            n = self.head
+            count = 0
+            new_node = Node(newElement,None)
+            while n != None:
+                count = count + 1
+                n = n.next
+            if index < 0 or index >= count:
+                print("Invalid index")
+            else:
+                n = self.head
+                new_node = Node(newElement,None)
+                val = new_node.element
+                flag = 0
+                while n != None:
+                    if n.element == val:
+                        print("Sorry,Key already exists")
+                        flag = 1
+                        break
+                    n = n.next
+                new_node = Node(newElement,None)
+                if flag == 0 and index == 0:
+                    new_node.next = self.head
+                    self.head = new_node
+            
+                else:
+                    new_node = Node(newElement,None)
+                    pre = self.nodeAt(index-1)
+                    suc = pre.next
+                    pre.next = new_node
+                    new_node.next = suc
+                    
+    def remove(self,deletekey):
+        n = self.head
+        i = 0
+        flag = 0
+        while n != None:
+            if n.element == deletekey:
+                print("Delete Key: "+str(n.element))
+                flag = 1
+                break
+            n = n.next
+            i+=1
+        if flag == 0:
+            print("Node is not present")
+        else:
+            index = i
+            if index == 0:
+                self.head = self.head.next
+            else:
+                pre = self.nodeAt(index-1)
+                remove = pre.next
+                succ = remove.next
+                pre.next = succ
+
+    def evenList(self):
+        n = self.head
+        while n is not None:
+            if n.element % 2 == 0:
+                print(n.element,end='->')
+            n = n.next
+        print()
+      
+        
+    def find(self,value):
+        n = self.head
+        flag = 0
+        while n is not None:
+            if n.element == value:
+                print("True")
+                flag = 1
+                break
+            n = n.next
+        if flag == 0:
+            print("False")
+            
+    def reverse(self):
+        n = self.head
+        self.tail = None
+        while n != None:
+            next = n.next
+            n.next = self.tail
+            self.tail = n
+            n = next
+        self.head = self.tail
+        
+    def sort(self):
+        n = self.head
+        while n != None:
+            min_node = n
+            other = n.next
+            while other != None:
+                if min_node.element > other.element:
+                    min_node = other
+                other = other.next
+                
+            n.element,min_node.element = min_node.element,n.element 
+            n = n.next
+    def sum(self):
+        n = self.head
+        total = 0
+        while n is not None:
+            total = total + n.element
+            n = n.next
+        print("Total: "+str(total))
+        
+    
+    def right_shift(self):
+        temp_head = 0
+        n = self.head
+        while n.next is not None:
+            temp = n.next
+            if temp.next is None:
+                n.next = None
+                self.tail = n
+                temp_head = temp
+                break
+            n = n.next
+        temp_head.next = self.head
+        self.head = temp_head
+
+    def left_shift(self):
+        n = self.head
+        self.head = self.head.next
+        self.tail.next = n
+        self.tail = n
+        self.tail.next = None
+
+    def rotate(self, rtype, k):
+        if rtype.lower() == 'right':
+            for i in range(k):
+                self.right_shift()
+        elif rtype.lower() == 'left':
+            for i in range(k):
+                self.left_shift()
+
+
+#Task1,2,3
+l = MyList([2,5,8,1,7])
+l.showList()
+l.isEmpty()
+l.clear()
+l.showList()
+l = MyList([2,5,8,1,7])
+l.insert(9)
+l.showList()
+l.insert(0,0)
+l.showList()
+l.insert(6,2)
+l.showList()
+l.remove(8)
+l.showList()
+l.evenList()
+l.find(9)
+l.reverse()
+l.showList()
+l.sort()
+l.showList()
+l.sum()
+l.rotate("right",2)
+l.showList()
+l.rotate("left",2)
+l.showList()

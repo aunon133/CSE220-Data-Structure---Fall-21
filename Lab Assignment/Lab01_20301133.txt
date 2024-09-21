@@ -1,0 +1,268 @@
+
+**Linear Array**
+
+#Task-1.
+
+def shiftLeft(source, k):
+    
+    start = 0
+    
+    while start <= len(source)-1:
+        source[start] = source[start-k]
+        start += 1
+        
+    while k < len(source):
+        source[k] = 0
+        k +=1
+        
+source=[10,20,30,40,50,60]
+shiftLeft(source,3)
+print(source) 
+
+#Task-2.
+
+def rotateLeft(source, k):
+ 
+    start = 0
+    temp = source[0:k]
+
+    while start < len(source)-1:
+        source[start] = source[start-k]
+        start += 1
+    
+    for i in range(k):
+        source[k] = temp[i]
+        k += 1
+
+source=[10,20,30,40,50,60]
+rotateLeft(source,3)
+print(source)
+
+#Task-3.
+
+def remove( source, size, idx):
+    
+    source[idx] = 0
+
+    start = idx
+    while start < len(source)-1:
+        source[start] = source[start+1]
+        start += 1
+    
+    
+source=[10,20,30,40,50,0,0]
+remove(source,5,2)
+print(source)   
+
+
+#Task-4.
+
+def removeAll(source, size, element):
+    
+    for i in range(len(source)):
+        if source[i] == 2:
+            source[i] = 0
+        
+    start = 1
+    while start < len(source)-1:
+        source[start] = source[start+1]
+        start += 1
+    
+    start = 2
+    while start < len(source)-1:
+        source[start] = source[start+1]
+        start += 1
+        
+source=[10,2,30,2,50,2,2,0,0]
+removeAll(source,7,2)
+print(source)
+
+#Task-5.
+
+def spliting_an_array(arr):
+    
+    count = 0
+    sum_count = 0
+    
+    for i in range(len(arr)):
+        count = count + arr[i]
+        
+    for i in range(len(arr)):
+        sum_count = sum_count + arr[i]
+        
+        if sum_count == count - sum_count:
+            return True
+        
+    else:
+        return False
+
+print(spliting_an_array([10,3,2,1,10]))  
+
+
+#Task-6.
+
+def array_series(n):
+    
+    if n<0:
+        print("Input must be positive")
+    else:
+        arr = []
+        main = [0]*n
+        i = 1
+        j = -1
+        while i<=n:
+            main[j]=i
+            arr += main
+            i+=1
+            j-=1
+        return arr
+
+print(array_series(n = int(input("Value Between 0 to Length of array: "))))
+
+
+#Task-7.
+
+def Max_Bunch_Count(arr):
+    max = 1
+    test = 0
+
+    current = arr[0]
+    i = 0
+    for i in range(len(arr)):
+        if arr[i] == current:
+            test += 1
+
+        else:
+            current = arr[i]
+            if test > max:
+                max = test
+            test = 1
+        if i == len(arr) - 1:
+            if test > max:
+                max = test
+        i += 1
+    return max
+
+
+print(Max_Bunch_Count([1, 1, 2, 2, 1, 1, 1, 1]))
+
+#Task-8.
+
+def repetition(arr):
+    check = []
+    repeat = []
+    count = 0
+    for i in arr:
+        if i in check:
+            continue
+        for j in arr:
+            if i == j:
+                count += 1
+        check.append(i)
+        if count > 1:
+            repeat.append(count)
+        count = 0
+    if len(repeat) == len(set(repeat)):
+        return False
+    else:
+        return True
+
+
+a1 = [4, 5, 6, 6, 4, 3, 6, 4]
+print(repetition(a1))
+
+
+**Circular Array**
+
+#Task-1.
+
+def Palindrome(arr,start,size):
+    
+    end = (start+size-1)%len(arr)
+
+    new_arr1 = [0]*len(arr)
+    new_arr2 = [0]*len(arr)
+
+    for i in range(0,len(arr)):
+        new_arr1[i] = arr[start]
+        start = (start+1)%len(arr)
+
+    for i in range(0,len(arr)):
+        new_arr2[i] = arr[end]
+        end -=1
+        
+    if new_arr1 == new_arr2:
+        print("True")
+    
+    else:
+        print("False")
+
+Palindrome([40, 30, 20, 10, 0, 10, 20, 30],5,7)
+
+#Task-2.
+
+def Circular_Intersection(arr_1,start_1,size_1,arr_2,start_2,size_2):
+    new_arr1 = [0]*size_1
+    new_arr2 = [0]*size_2
+    
+    for i in range(0,size_1):
+        new_arr1[i] = arr_1[start_1]
+        start_1 = (start_1 + 1)%len(arr_1)
+        
+    for j in range(0,size_2):
+        new_arr2[j] = arr_2[start_2]
+        start_2 = (start_2 + 1)%len(arr_2)
+        
+    main = [0]*(i-1)
+    i = 0
+    for x in new_arr1:
+        for y in new_arr2:
+            if x == y:
+                main[i] = x
+                i+=1
+            
+    print(main)
+    
+arr_1 =  [40,50,0,0,0,10,20,30]
+start_1 = 5
+size_1 = 5
+arr_2 =  [10,20,5,0,0,0,0,0,5,40,15,25]
+start_2 = 8
+size_2 =7
+Circular_Intersection(arr_1,start_1,size_1,arr_2,start_2,size_2)
+
+#Task-3.
+
+import random
+
+def game(n):
+    arr = [0] * n
+
+    for i in range(0, n):
+        arr[i] = i + 1
+    x = len(arr)
+    while x != 1:
+        generator = random.randint(0, 3)
+        if generator == 1:
+            loser = (x // 2)
+            arr[loser - 1] = 0
+
+            i = loser
+            while i < x:
+                arr[i - 1] = arr[i]
+                i = i + 1
+
+            arr[x - 1] = 0
+            x -= 1
+            
+        else:
+            idx = arr[x-1]
+            i = x-1
+            while i>=1:
+                arr[i]=arr[i-1]
+                i-=1
+            arr[0]=idx
+    print(arr)
+
+
+game(7)

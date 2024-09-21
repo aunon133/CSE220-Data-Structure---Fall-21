@@ -1,0 +1,169 @@
+#Task-1
+
+
+class Stack:
+    def __init__(self):
+        self.stack = []
+
+    def push(self, item):
+        self.stack.append(item)
+
+    def peek(self):
+        if self.stack == []:
+            return None
+        else:
+            return self.stack[-1]
+
+    def pop(self):
+        self.stack = self.stack[:-1]
+
+
+def parenthesis_checker(exp):
+    flag = 0
+    idx = 0
+    open_bracket = ['(', '{', '[']
+    close_bracket = [')', '}', ']']
+    openchar=[]
+    for i in exp:
+        idx += 1
+        if i in open_bracket:
+            s.push(i)
+            openchar.append(idx)
+        elif i in close_bracket:
+            if s.stack == []:
+                flag = 'Error at character # {}.\'{}\'-not opened.'.format(idx, i)
+                break
+            j = 0
+            obj = s.peek()
+            if i == ')' and obj == '(':
+                s.pop()
+                openchar.pop()
+            elif i == '}' and obj == '{':
+                s.pop()
+                openchar.pop()
+            elif i == ']' and obj == '[':
+                s.pop()
+                openchar.pop()
+            else:
+                flag = 'Error at character # {}.\'{}\'-not closed.'.format(openchar[-1], obj)
+
+    if s.stack == [] and flag == 0:
+        print("The expression is corect.")
+    else:
+        print("This expression is NOT correct.")
+        print(flag)
+
+
+s = Stack()
+print("Output 1")
+exp = '1+2*(3/4)'
+print(exp)
+parenthesis_checker(exp)
+s = Stack()
+print("Output 2")
+exp = '1+2*[3*3+{4–5(6(7/8/9)+10)–11+(12*8)]+14'
+print(exp)
+parenthesis_checker(exp)
+s = Stack()
+print("Output 3")
+exp = '1+2*[3*3+{4–5(6(7/8/9)+10)}–11+(12*8)/{13+13}]+14'
+print(exp)
+parenthesis_checker(exp)
+s = Stack()
+print("Output 4")
+exp = '1+2]*[3*3+{4–5(6(7/8/9)+10)–11+(12*8)]+14'
+print(exp)
+parenthesis_checker(exp)
+
+
+
+#Task-2
+
+
+class Node:
+    def __init__(self,element = None,next = None):
+        self.element = element
+        self.next = next
+        
+class Stack_List:
+    def __init__(self):
+        self.head = None
+        
+    def push(self,item):
+        if self.head == None:
+            self.head = Node(item,None)
+        else:
+            n = Node(item,None)
+            n.next = self.head
+            self.head = n
+    
+    def peek(self):
+        if self.head == None:
+            return 'Empty'
+        else:
+            return self.head.element
+        
+    def pop(self):
+        if self.head == None:
+            return 'Empty'
+        else:
+            self.head = self.head.next
+            
+            
+    def parenthesis_checker(self,exp):
+        flag = 0
+        idx = 0
+        open_bracket = ['(','{','[']
+        close_bracket = [')','}',']']
+        openchar=[]
+        for i in exp:
+            idx += 1
+            if i in open_bracket:
+                s.push(i)
+                openchar.append(idx)
+            elif i in close_bracket:
+                if s.head == None:
+                    flag = 'Error at character # {}.\'{}\'-not opened.'.format(idx,i)
+                    break
+                obj = s.peek()
+                if i == ')'and obj == '(':
+                    s.pop()
+                    openchar.pop()
+                elif i == '}'and obj == '{':
+                    s.pop()
+                    openchar.pop()
+                elif i == ']'and obj == '[':
+                    s.pop()
+                    openchar.pop()
+                else:
+                    flag = 'Error at character # {}.\'{}\'-not closed.'.format(openchar[-1], obj)
+   
+                        
+                    
+                    
+        if s.head == None and flag == 0:
+            print("This expression is correct.")
+        else:
+            print("This expression is NOT correct.")
+            print(flag)
+                    
+s = Stack_List()
+print("Output 1")
+exp = '1+2*(3/4)'
+print(exp)
+s.parenthesis_checker(exp)
+s = Stack_List()
+print("Output 2")
+exp = '1+2*[3*3+{4–5(6(7/8/9)+10)–11+(12*8)]+14'
+print(exp)
+s.parenthesis_checker(exp)
+s = Stack_List()
+print("Output 3")
+exp = '1+2*[3*3+{4–5(6(7/8/9)+10)}–11+(12*8)/{13+13}]+14'
+print(exp)
+s.parenthesis_checker(exp)
+s = Stack_List()
+print("Output 4")
+exp = '1+2]*[3*3+{4–5(6(7/8/9)+10)–11+(12*8)]+14'
+print(exp)
+s.parenthesis_checker(exp)

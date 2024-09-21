@@ -1,0 +1,185 @@
+#-----------------Task1-------------------
+
+def selection_recursive_sort(arr,i):
+    if i == len(arr):
+        return
+    if i >= 0 and i <= len(arr)-1:
+        min_pos = i
+        for j in range(i,len(arr)):
+            if arr[j] < arr[min_pos]:
+                min_pos = j
+    
+        temp = arr[i]
+        arr[i] = arr[min_pos]
+        arr[min_pos] = temp
+        
+    selection_recursive_sort(arr,i+1)
+    return arr
+arr = [5,3,0,-1,-7,-2,9,2]
+print(selection_recursive_sort(arr,0))
+
+#-------------Task2----------------------------
+
+def insertion_recursive_sort(arr,i):
+    if i == len(arr):
+        return 
+    if 1 <= i <= len(arr)-1:
+        j = i
+        while j > 0 and arr[j - 1] > arr[j]:
+            arr[j-1],arr[j] = arr[j],arr[j-1]
+            j -= 1
+    insertion_recursive_sort(arr,i+1)
+    return arr
+arr = [-1,-6,0,-8,7,2,9,2]
+print(insertion_recursive_sort(arr,0)
+
+#--------------------TASK-3 & 4-------------------
+
+class Node:
+    def __init__(self,element,next):
+        self.element = element
+        self.next = next
+        
+class MyList:
+    def __init__(self,a):
+        self.head = None
+        self.tail = None
+        
+        for i in a:
+            n = Node(i, None)
+            if self.head is None:
+                self.head = n
+                self.tail = n
+            else:
+                self.tail.next = n
+                self.tail = n
+    def showList(self):
+        n = self.head
+        if n == None:
+            print("Empty List")
+            
+        else:
+            while n is not None:
+                if n.next is not None:
+                    print(n.element,end = " -> ")
+                else:
+                    print(n.element)
+                n = n.next
+                
+    def bubble_sort(self):
+        self.tail = None
+        while self.head.next != self.tail:
+            n = self.head
+            while n.next != self.tail:
+                if n.element > n.next.element:
+                    n.element,n.next.element = n.next.element, n.element
+                n = n.next
+            self.tail = n
+            
+
+    def selection_sort(self):
+        n = self.head
+        while n != None:
+            min_node = n
+            other = n.next
+            while other != None:
+                if min_node.element > other.element:
+                    min_node = other
+                other = other.next
+                
+            n.element,min_node.element = min_node.element,n.element 
+            n = n.next
+            
+l1 = MyList([-6,5,0,8,1,1])
+l1.bubble_sort()
+l1.showList()
+l2 = MyList([-13,45,0,-9,76])
+l2.selection_sort()
+l2.showList()
+
+#-----------------TASK-5------------------------------
+
+
+class Node:
+    def __init__(self,element,next = None, prev = None):
+        self.element = element
+        self.next = next
+        self.prev = prev
+        
+class Doubly_List:
+    def __init__(self,a):
+        self.head = None
+        self.tail = None
+        
+        for i in a:
+            n = Node(i,None,self.head)
+            if self.head == None:
+                self.head = n
+                self.tail = n
+            else:
+                self.tail.next = n
+                self.tail = n
+                
+    def showList(self):
+        n = self.head
+        if self.head == None:
+            print("Empty List")
+        else:
+            while n is not None:
+                if n.next is not None:
+                    print(n.element,end = " <-> ")
+                else:
+                    print(n.element)
+                n = n.next
+           
+    
+    def insertion_sort(self):
+        n = self.head
+        while n.next != None:
+            i = n.next
+            while i != None: 
+                if n.element > i.element:
+                    n.element,i.element = i.element,n.element
+                i = i.next
+            n = n.next
+            
+dl = Doubly_List([4,0,1,-9,3,7,1])
+dl.insertion_sort()
+dl.showList()
+
+#----------------Task6------------------------------
+
+def recursive_binary_search(array,lower,higher,key):
+    if lower > higher:
+        return "Key Not Found"
+    if lower <= higher:
+        mid_index = int((lower+higher)/2)
+        if array[mid_index] == key:
+            return "Key Found at index "+ str(mid_index)
+        elif key > array[mid_index]:
+            lower = mid_index + 1
+        else:
+            higher = mid_index - 1
+        return recursive_binary_search(array,lower,higher,key)
+    
+array = [-6,-1,0,4,8,9]
+lower = 0
+higher = len(array)-1
+key = 4
+print(recursive_binary_search(array,lower,higher,key))
+
+#---------------------------Task-7--------------------------
+
+def fibonacci(nth,fib = {}):
+    
+    if nth == 0 :
+        return 0
+    if nth == 1 or nth == 2:
+        return 1
+    if nth in fib:
+        return fib[nth]
+        
+    fib[nth] = fibonacci(nth-1,fib) + fibonacci(nth-2,fib)
+    return fib[nth]
+
+print(fibonacci(6))

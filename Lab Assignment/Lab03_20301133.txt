@@ -1,0 +1,159 @@
+class Node:
+    def __init__(self,element,next = None, prev = None):
+        self.element = element
+        self.next = next
+        self.prev = prev
+        
+class DoublyList:
+    def __init__(self,a):
+        self.a = a
+        self.head = Node(None,None,None)
+        if len(self.a) == 0:
+            self.head.next = None
+        else:
+            self.head.next = Node(a[0],None,self.head)
+            n = self.head.next
+            for i in range(1,len(a)):
+                n.next = Node(a[i],None,n)
+                n = n.next
+            n.next = self.head
+            self.head.prev = n
+        
+    def showList(self):
+        n = self.head.next
+        if self.head.next == None:
+            print("Empty List")
+            
+        else:
+            while n != self.head:
+                print(n.element,end = " <-> ")
+                n = n.next
+            print()
+            
+    def nodeAt(self,index):
+        n = self.head.next
+        count = 0
+        while n != self.head:
+            count = count + 1
+            n = n.next
+        if index < 0 or index >= count:
+            return None
+        n = self.head.next
+        i = 0
+        while n is not self.head:
+            if i == index:
+                return n
+            n = n.next
+            i+=1
+            
+    def insert(self,newElement,index = None):
+        if index == None:
+            n = self.head.next
+            flag = 0
+            while n != self.head:
+                if n.element == newElement:
+                    print("Cannot insert, Key already exists and No changed in the Linked List")
+                    flag = 1
+                    break
+                n = n.next
+            n = self.head.next
+            new_node = Node(newElement,self.head,n)
+            if flag == 0:
+                while n.next != self.head:
+                    n = n.next
+                n.next = new_node
+                
+        else:
+            n = self.head.next
+            count = 0
+            while n != self.head:
+                count = count + 1
+                n = n.next
+            n = self.head.next
+            flag = 0
+            while n != self.head:
+                if n.element == newElement:
+                    print("Cannot insert, Key already exists and No changed in the Linked List")
+                    flag = 1
+                    break
+                n = n.next
+                
+            if flag == 0:    
+                n = self.head.next
+                if index < 0 or index > count:
+                    print("Invalid index")
+                elif index == 0:
+                    new_node = Node(newElement,n,self.head)
+                    self.head.next = new_node
+                    n.prev = new_node
+                
+                elif  index > 0 or index < count:
+                    new_node = Node(newElement,None,None)
+                    pre = self.nodeAt(index-1)
+                    suc = pre.next
+                    pre.next = new_node
+                    new_node.next = suc
+            
+    def remove(self,index):
+        n = self.head.next
+        count = 0
+        while n != self.head:
+            count = count + 1
+            n = n.next
+        if index < 0 or index >= count:
+            print("Invalid index and No changed in the Linked List")
+        elif index == 0:
+            self.head.next = self.head.next.next
+        else:
+            pre = self.nodeAt(index-1)
+            suc = pre.next
+            pre.next = suc.next
+            
+    def removeKey(self,deleteKey):
+        n = self.head.next
+        i = 0
+        flag = 0
+        while n != self.head:
+            if n.element == deleteKey:
+                print("Delete Key: "+ str(n.element))
+                flag = 1
+                break
+            n = n.next
+            i+=1
+        
+        if flag == 0:
+            print("Node is not present")
+            
+        else:
+            index = i
+            if index == 0:
+                self.head.next = self.head.next.next
+            else:
+                pre = self.nodeAt(index-1)
+                remove = pre.next
+                succ = remove.next
+                pre.next = succ
+            
+            
+dl = DoublyList([])
+dl.showList()
+dl = DoublyList([4,7,2,6,9])
+dl.showList()
+dl.insert(4)
+dl.insert(10)
+dl.showList()
+dl.insert(2,0)
+dl.insert(8,0)
+dl.showList()
+dl.insert(8,8)
+dl.insert(6,4)
+dl.insert(8,4)
+dl.showList()
+dl.remove(6)
+dl.remove(0)
+dl.showList()
+dl.remove(4)
+dl.showList()
+dl.removeKey(0)
+dl.removeKey(4)
+dl.showList()
